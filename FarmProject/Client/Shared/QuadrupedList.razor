@@ -1,0 +1,20 @@
+﻿@inject IAnimalService AnimalsService
+@foreach (Quadruped animal in AnimalsService.Quadrupeds)
+    {
+      <tr>				
+		<td>@animal.Name</td>
+		<td>@animal.Quantity</td>
+      </tr>
+	}
+			
+    
+
+
+@code {
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		await AnimalsService.LoadQuadrupeds();
+	}
+}

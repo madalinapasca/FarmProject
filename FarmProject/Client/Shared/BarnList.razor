@@ -1,0 +1,23 @@
+﻿@using FarmProject.Client.Services.FoodServices
+@inject IFoodService FoodService
+
+@foreach (Barn food in FoodService.Barn)
+{
+	<tr>
+
+		<td>@food.Name</td>
+		<td>@food.Quantity</td>
+	</tr>
+}
+
+
+
+@code {
+
+	protected override async Task OnInitializedAsync()
+	{
+		await FoodService.LoadFood();
+	
+	}
+
+}
