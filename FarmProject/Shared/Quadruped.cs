@@ -10,6 +10,7 @@ namespace FarmProject.Shared
     public class Quadruped
     {
         [Required]
+        [Key]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
@@ -19,5 +20,6 @@ namespace FarmProject.Shared
         public double? Corn { get; set; }
 
         public double? Hey { get; set; }
+        
     }
 }

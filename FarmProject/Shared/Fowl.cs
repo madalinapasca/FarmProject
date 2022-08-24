@@ -10,6 +10,7 @@ namespace FarmProject.Shared
     public class Fowl
     {
         [Required]
+        [Key]
         public int Id { get; set; }
         [Required] 
         public string Name { get; set; }

@@ -1,11 +1,20 @@
+using FarmProject.Server.Data;
 using FarmProject.Server.Services.Animal;
 using FarmProject.Server.Services.Food;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+string connString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+
 
 // Add services to the container.
 
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IAnimalService, AnimalService>();
