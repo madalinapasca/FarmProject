@@ -1,0 +1,65 @@
+﻿@using FarmProject.Client.Services.AnimalServices
+@using FarmProject.Shared
+@inject IAnimalService AnimalsService
+
+
+@foreach (Quadruped animal in AnimalsService.Quadrupeds)
+    {
+      <tr>				
+		<td>@animal.Name</td>
+		@if (animal.Corn == null)
+		{
+			<td>-</td>
+		}
+		else
+		{
+			<td>@animal.Corn</td>
+		}
+		
+		@if (animal.Hey == null)
+		{
+			<td>-</td>
+		}
+		else
+		{
+			<td>@animal.Hey</td>
+		}
+	</tr>
+	}
+
+@foreach (Fowl animal in AnimalsService.Fowls)
+{
+	<tr>
+
+		<td>@animal.Name</td>
+		@if (animal.Corn == null)
+		{
+			<td>-</td>
+		}
+		else
+		{
+			<td>@animal.Corn</td>
+		}
+
+		@if (animal.Hey == null)
+		{
+			<td>-</td>
+		}
+		else
+		{
+			<td>@animal.Hey</td>
+		}
+	</tr>
+}
+
+
+
+@code {
+
+	protected override async Task OnInitializedAsync()
+	{
+		await AnimalsService.LoadQuadrupeds();
+		await AnimalsService.LoadFowls();
+	}
+
+}

@@ -1,5 +1,6 @@
 ﻿@using FarmProject.Client.Services.FoodServices
 @inject IFoodService FoodService
+@inject NavigationManager NavigationManager
 
 @foreach (Barn food in FoodService.Barn)
 {
@@ -7,6 +8,7 @@
 
 		<td>@food.Name</td>
 		<td>@food.Quantity</td>
+		<button class="btn btn-primary" @onclick="(()=> AddFood(food.Id))" ><i class="oi oi-plus"></i></button>
 	</tr>
 }
 
@@ -17,7 +19,12 @@
 	protected override async Task OnInitializedAsync()
 	{
 		await FoodService.LoadFood();
-	
+
+	}
+
+	void AddFood(int id)
+	{
+		NavigationManager.NavigateTo($"editfood/{id}");
 	}
 
 }
