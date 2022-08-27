@@ -1,6 +1,8 @@
 ﻿@page "/removeanimals"
+@inject IAnimalService AnimalsService;
+@inject NavigationManager NavigationManager;
 
-<h1>Doriti sa reduceti</h1>
+<h1>Situatie curenta in ferma</h1>
 
 <table class="table">
     <thead>
@@ -12,12 +14,65 @@
         </tr>
     </thead>
     <tbody>
-         <AnimalsList/>
+         <FarmList/>
     </tbody>
 </table>
+
+<h1>Doriti sa reduceti:</h1>
+
+<EditForm Model="quadruped" OnSubmit="HandleSubmit">
+    <div>
+        <label>Denumire</label><br />
+        <InputSelect @bind-Value="quadruped.Name" class="form-select">
+            @foreach (var animal in AnimalsService.Quadrupeds)
+            {
+                <option value="@animal.Name">@animal.Name</option>
+            }
+        </InputSelect>
+    </div>
+    
+    <div>
+        <label for="quantity">Introduceti cu cat scade totalul:</label>
+        <InputNumber id="lastname" @bind-Value="quadruped.Quantity" class="form-control"></InputNumber>
+    </div>
+    
+    <br />
+    <button type="submit" class="btn btn-primary">Redu</button>
+    
+</EditForm>
+
 
 
 
 @code {
+
+    [Parameter]
+    public int? Id { get; set; }
+
+    Quadruped quadruped = new Quadruped();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id != null)
+            quadruped = await AnimalsService.GetSpecificQuadruped((int)Id);
+        else
+            Console.WriteLine("vad eu ce fac");
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        await AnimalsService.LoadQuadrupeds();
+    }
+
+    async Task HandleSubmit()
+        
+
+    {
+       // await AnimalsService.DecreaseQuadrupedsNumber(quadruped);
+    }
+
+
 
 }

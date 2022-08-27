@@ -1,5 +1,5 @@
 ﻿using FarmProject.Server.Data;
-using FarmProject.Server.Services.Food;
+
 using FarmProject.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -54,7 +54,7 @@ namespace FarmProject.Server.Controllers
             }
 
             dbFood.Name = food.Name;
-            dbFood.Quantity = food.Quantity;
+            dbFood.Quantity += food.Quantity;
             dbFood.Id = food.Id;
 
             await _context.SaveChangesAsync();
@@ -64,7 +64,7 @@ namespace FarmProject.Server.Controllers
 
         private async Task<List<Barn>> GetDbFoodFromBarn()
         {
-            return await _context.Barn.Include(sh => sh.Id).ToListAsync();
+            return await _context.Barn.ToListAsync();
         }
     }
 }

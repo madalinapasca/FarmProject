@@ -1,6 +1,10 @@
-﻿@using FarmProject.Client.Services.FoodServices;
+﻿@page "/addfowls"
+@using FarmProject.Client.Services.FoodServices;
 @inject IAnimalService AnimalsService;
 @inject NavigationManager NavigationManager
+
+<h3>AddQuadrupeds</h3>
+
 <h1>Doriti sa adaugati</h1>
 
 <table class="table">
@@ -8,12 +12,12 @@
         <tr>
 
             <th>Denumire</th>
-            
+
 
         </tr>
     </thead>
     <tbody>
-        @foreach (Quadruped animal in AnimalsService.Quadrupeds)
+        @foreach (Fowl animal in AnimalsService.Fowls)
         {
             <tr>
                 <td>@animal.Name</td>
@@ -24,15 +28,17 @@
 </table>
 
 @code {
+
+
     protected override async Task OnInitializedAsync()
     {
-        await AnimalsService.LoadQuadrupeds();
-      
+        await AnimalsService.LoadFowls();
+
     }
 
     void EditAnimal(int id)
     {
-        NavigationManager.NavigateTo($"editquadruped/{id}");
+        NavigationManager.NavigateTo($"editfowl/{id}");
     }
 
 

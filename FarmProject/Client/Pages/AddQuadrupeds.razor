@@ -1,6 +1,10 @@
-﻿@using FarmProject.Client.Services.FoodServices;
+﻿@page "/addquadrupeds"
+@using FarmProject.Client.Services.FoodServices;
 @inject IAnimalService AnimalsService;
 @inject NavigationManager NavigationManager
+
+<h3>AddQuadrupeds</h3>
+
 <h1>Doriti sa adaugati</h1>
 
 <table class="table">
@@ -24,6 +28,8 @@
 </table>
 
 @code {
+    
+
     protected override async Task OnInitializedAsync()
     {
         await AnimalsService.LoadQuadrupeds();

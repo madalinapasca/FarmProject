@@ -1,4 +1,5 @@
 ﻿using FarmProject.Shared;
+using Microsoft.AspNetCore.Components;
 using System.Net.Http.Json;
 
 namespace FarmProject.Client.Services.AnimalServices
@@ -6,13 +7,16 @@ namespace FarmProject.Client.Services.AnimalServices
 	public class AnimalsService : IAnimalService
 	{
 		private readonly HttpClient _http;
-		public List<Quadruped> Quadrupeds { get ; set ; } = new List<Quadruped>();
+        private readonly NavigationManager _navigationManager;
+        public List<Quadruped> Quadrupeds { get ; set ; } = new List<Quadruped>();
 		public List<Fowl> Fowls { get; set; } = new List<Fowl>();
 
-		public AnimalsService(HttpClient http)
+		public AnimalsService(HttpClient http, NavigationManager navigationManager)
 		{
 			_http=http;
-		}
+            _navigationManager = navigationManager;
+        }
+    
 
 		public async Task LoadFowls()
 		{
@@ -26,6 +30,55 @@ namespace FarmProject.Client.Services.AnimalServices
 			Quadrupeds = await _http.GetFromJsonAsync<List<Quadruped>>("api/Animal");
         }
 
-        
-	}
+        private async Task SetQuadruped(HttpResponseMessage result)
+        {
+            var response = await result.Content.ReadFromJsonAsync<List<Quadruped>>();
+            Quadrupeds = response;
+            _navigationManager.NavigateTo("addanimals");
+        }
+
+        private async Task SetFowl(HttpResponseMessage result)
+        {
+            var response = await result.Content.ReadFromJsonAsync<List<Fowl>>();
+            Fowls = response;
+            _navigationManager.NavigateTo("addanimals");
+        }
+
+        public async Task<Quadruped> GetSpecificQuadruped(int id)
+        {
+            var result = await _http.GetFromJsonAsync<Quadruped>($"api/Animal/{id}");
+            if (result != null)
+                return result;
+            throw new Exception("Animal not found!");
+
+
+
+        }
+
+        public async Task UpdateQuadruped(Quadruped animal)
+        {
+            var result = await _http.PutAsJsonAsync($"api/Animal/{animal.Id}", animal);
+            await SetQuadruped(result);
+        }
+
+        public async Task DecreaseQuadrupedsNumber(Quadruped animal)
+        {
+            var result = await _http.PutAsJsonAsync($"api/Animal/decrease/{animal.Id}", animal);
+            await SetQuadruped(result);
+        }
+
+        public async Task<Fowl> GetSpecificFowl(int id)
+        {
+            var result = await _http.GetFromJsonAsync<Fowl>($"api/Fowls/{id}");
+            if (result != null)
+                return result;
+            throw new Exception("Animal not found!");
+        }
+
+        public async Task UpdateFowl(Fowl animal)
+        {
+            var result = await _http.PutAsJsonAsync($"api/Fowls/{animal.Id}", animal);
+            await SetFowl(result);
+        }
+    }
 }

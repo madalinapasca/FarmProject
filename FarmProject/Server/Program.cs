@@ -1,6 +1,6 @@
 using FarmProject.Server.Data;
 using FarmProject.Server.Services.Animal;
-using FarmProject.Server.Services.Food;
+
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +18,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IAnimalService, AnimalService>();
-builder.Services.AddScoped<IFoodService, FoodServices>();
+
 
 var app = builder.Build();
 

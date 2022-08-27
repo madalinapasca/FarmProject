@@ -1,4 +1,5 @@
 ﻿using FarmProject.Shared;
+using System.Threading.Tasks;
 
 namespace FarmProject.Client.Services.AnimalServices
 {
@@ -10,5 +11,18 @@ namespace FarmProject.Client.Services.AnimalServices
 
 		Task LoadQuadrupeds();
 		Task LoadFowls();
-	}
+
+        Task<Quadruped> GetSpecificQuadruped(int id);
+
+        Task<Fowl> GetSpecificFowl(int id);
+
+        Task UpdateQuadruped(Quadruped animal);
+        Task UpdateFowl(Fowl animal);
+
+        
+        Task DecreaseQuadrupedsNumber (Quadruped animal);
+
+       
+
+    }
 }
