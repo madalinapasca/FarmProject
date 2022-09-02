@@ -12,9 +12,10 @@ namespace FarmProject.Shared
         [Required]
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Optiunile de animale pentru patrupede sunt: porci, cai, oi, bovine.")]
+        
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage ="cantitatea nu poate fi un numar negativ.")]
         public int Quantity { get; set; }
     }
 }

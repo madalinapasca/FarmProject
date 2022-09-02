@@ -1,5 +1,6 @@
-﻿@inject IAnimalService AnimalsService
-
+﻿@using FarmProject.Client.Services.FoodServices
+@inject IAnimalService AnimalsService
+@inject IFoodService FoodService
 
 
 @foreach (Quadruped animal in AnimalsService.Quadrupeds)
@@ -16,12 +17,17 @@
 
 		<td>@animal.Name</td>
 		<td>@animal.Quantity</td>
+		
+		
 	</tr>
 }
 
 
 
 @code {
+
+	
+
 
 	protected override async Task OnInitializedAsync()
 	{

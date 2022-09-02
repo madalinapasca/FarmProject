@@ -11,5 +11,8 @@ namespace FarmProject.Client.Services.FoodServices
         Task<Barn> GetSpecificFood(int id);
 
         Task UpdateFood(Barn food);
+
+        Task<double?> GetCornQuantity();
+        Task<double?> GetHeyQuantity();
     }
 }

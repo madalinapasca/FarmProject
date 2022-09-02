@@ -1,6 +1,9 @@
 ﻿@using FarmProject.Client.Services.AnimalServices
 @using FarmProject.Shared
 @inject IAnimalService AnimalsService
+@inject NavigationManager NavigationManager;
+
+
 
 
 @foreach (Quadruped animal in AnimalsService.Quadrupeds)
@@ -24,6 +27,7 @@
 		{
 			<td>@animal.Hey</td>
 		}
+		<button class="btn btn-primary" @onclick="(()=> EditQuadruped(animal.Id))"><i class="oi oi-pencil"></i></button>
 	</tr>
 	}
 
@@ -49,6 +53,7 @@
 		{
 			<td>@animal.Hey</td>
 		}
+		<button class="btn btn-primary" @onclick="(()=> EditFowl(animal.Id))"><i class="oi oi-pencil"></i></button>
 	</tr>
 }
 
@@ -62,4 +67,13 @@
 		await AnimalsService.LoadFowls();
 	}
 
+	void EditFowl(int id)
+	{
+		NavigationManager.NavigateTo($"editfowlfood/{id}");
+	}
+
+	void EditQuadruped(int id)
+	{
+		NavigationManager.NavigateTo($"editquadrupedfood/{id}");
+	}
 }

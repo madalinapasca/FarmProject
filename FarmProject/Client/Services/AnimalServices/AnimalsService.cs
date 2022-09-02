@@ -1,4 +1,5 @@
-﻿using FarmProject.Shared;
+﻿using FarmProject.Client.Pages;
+using FarmProject.Shared;
 using Microsoft.AspNetCore.Components;
 using System.Net.Http.Json;
 
@@ -11,7 +12,13 @@ namespace FarmProject.Client.Services.AnimalServices
         public List<Quadruped> Quadrupeds { get ; set ; } = new List<Quadruped>();
 		public List<Fowl> Fowls { get; set; } = new List<Fowl>();
 
-		public AnimalsService(HttpClient http, NavigationManager navigationManager)
+        public double? QuadrupedsCorn { get; set; }
+
+        public double? QuadrupedsHey { get; set; }
+
+        public double? FowlsCorn { get; set; }
+
+        public AnimalsService(HttpClient http, NavigationManager navigationManager)
 		{
 			_http=http;
             _navigationManager = navigationManager;
@@ -34,14 +41,14 @@ namespace FarmProject.Client.Services.AnimalServices
         {
             var response = await result.Content.ReadFromJsonAsync<List<Quadruped>>();
             Quadrupeds = response;
-            _navigationManager.NavigateTo("addanimals");
+            //_navigationManager.NavigateTo("addanimals");
         }
 
         private async Task SetFowl(HttpResponseMessage result)
         {
             var response = await result.Content.ReadFromJsonAsync<List<Fowl>>();
             Fowls = response;
-            _navigationManager.NavigateTo("addanimals");
+           // _navigationManager.NavigateTo("addanimals");
         }
 
         public async Task<Quadruped> GetSpecificQuadruped(int id)
@@ -63,7 +70,7 @@ namespace FarmProject.Client.Services.AnimalServices
 
         public async Task DecreaseQuadrupedsNumber(Quadruped animal)
         {
-            var result = await _http.PutAsJsonAsync($"api/Animal/decrease/{animal.Id}", animal);
+            var result = await _http.PutAsJsonAsync($"api/Animal/decreasequadrupeds/{animal.Id}", animal);
             await SetQuadruped(result);
         }
 
@@ -79,6 +86,42 @@ namespace FarmProject.Client.Services.AnimalServices
         {
             var result = await _http.PutAsJsonAsync($"api/Fowls/{animal.Id}", animal);
             await SetFowl(result);
+        }
+
+        public async Task DecreaseFowlsNumber(Fowl animal)
+        {
+            var result = await _http.PutAsJsonAsync($"api/Fowls/decreasefowls/{animal.Id}", animal);
+            await SetFowl(result);
+        }
+
+        public async Task<double?> QuadrupedsCornNeeds()
+        {
+            var result = await _http.GetFromJsonAsync<double?>($"api/Animal/cornquantity");
+            if (result == null)
+                return null;
+            else
+                QuadrupedsCorn = result;
+            return QuadrupedsCorn;
+        }
+
+        public async Task<double?> QuadrupedsHeyNeeds()
+        {
+            var result = await _http.GetFromJsonAsync<double?>($"api/Animal/heyquantity");
+            if (result == null)
+                return null;
+            else
+                QuadrupedsHey = result;
+            return QuadrupedsHey;
+        }
+
+        public async Task<double?> FowlsCornNeeds()
+        {
+            var result = await _http.GetFromJsonAsync<double?>($"api/Fowls/cornquantity");
+            if (result == null)
+                return null;
+            else
+                FowlsCorn = result;
+            return FowlsCorn;
         }
     }
 }

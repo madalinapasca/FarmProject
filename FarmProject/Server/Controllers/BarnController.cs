@@ -4,6 +4,7 @@ using FarmProject.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace FarmProject.Server.Controllers
 {
@@ -24,6 +25,38 @@ namespace FarmProject.Server.Controllers
         {
             var food = await _context.Barn.ToListAsync(); 
             return Ok(food);
+        }
+
+        [HttpGet("cornquantity")]
+        public async Task<double?> GetCornQuantity()
+        {
+            var corn = await _context.Barn.FirstOrDefaultAsync(h => h.Name == "porumb");
+            if (corn == null)
+            {
+                return null;
+            }
+            else
+            {
+                double? quantity = corn.Quantity;
+                return quantity;
+            }
+           
+        }
+
+        [HttpGet("heyquantity")]
+        public async Task<double?> GetHeyQuantity()
+        {
+            var hey = await _context.Barn.FirstOrDefaultAsync(h => h.Name == "fan");
+            if (hey == null)
+            {
+                return null;
+            }
+            else
+            {
+                double? quantity = hey.Quantity;
+                return quantity;
+            }
+
         }
 
 

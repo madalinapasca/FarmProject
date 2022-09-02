@@ -2,6 +2,8 @@
 @using FarmProject.Client.Services.FoodServices;
 @inject IAnimalService AnimalsService;
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JS;
+
 
 <h3>AddQuadrupeds</h3>
 
@@ -27,19 +29,43 @@
     </tbody>
 </table>
 
+<a class="nav-link" href="addanimals">Reveniti la meniul anterior</a>
+
 @code {
+
     
+    Quadruped quadruped = new Quadruped();
+
 
     protected override async Task OnInitializedAsync()
     {
         await AnimalsService.LoadQuadrupeds();
-      
+
     }
 
-    void EditAnimal(int id)
+
+
+    async Task EditAnimal(int id)
     {
-        NavigationManager.NavigateTo($"editquadruped/{id}");
+        quadruped = await AnimalsService.GetSpecificQuadruped((int)id);
+
+        bool condition = quadruped.HasFoodNeedsConfigured();
+        string message = $"Configurați nevoile de hrană pentru {quadruped.Name} înainte de a adauga animale noi în stoc";
+
+        if (condition)
+        {
+            NavigationManager.NavigateTo($"editquadruped/{id}");
+
+        }
+        else
+        {
+
+            await JS.InvokeVoidAsync("displayAlert1", message);  
+       }
+
     }
+
+    
 
 
 }

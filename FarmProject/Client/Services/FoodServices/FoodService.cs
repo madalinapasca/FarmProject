@@ -9,6 +9,8 @@ namespace FarmProject.Client.Services.FoodServices
         private readonly HttpClient _http;
         private readonly NavigationManager _navigationManager;
         public List<Barn> Barn { get; set; } = new List<Barn>();
+        public double? CornTotal { get; set; }
+        public double? HeyTotal { get; set; }
         public FoodService(HttpClient http, NavigationManager navigationManager)
         {
             _http = http;
@@ -43,6 +45,24 @@ namespace FarmProject.Client.Services.FoodServices
             await SetFood(result);
         }
 
-       
+        public async Task<double?> GetCornQuantity()
+        {
+            var result = await _http.GetFromJsonAsync<double?>($"api/Barn/cornquantity");
+           if(result== null)
+                return null;
+           else
+                CornTotal = result;
+           return CornTotal;
+        }
+
+        public async Task<double?> GetHeyQuantity()
+        {
+            var result = await _http.GetFromJsonAsync<double?>($"api/Barn/heyquantity");
+            if (result == null)
+                return null;
+            else
+                HeyTotal = result;
+            return HeyTotal;
+        }
     }
 }

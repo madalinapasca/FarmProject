@@ -20,25 +20,42 @@
 
 <h1>Doriti sa reduceti:</h1>
 
-<EditForm Model="quadruped" OnSubmit="HandleSubmit">
+<EditForm Model="quadruped" OnSubmit="HandleSubmitQuadrupeds">
     <div>
-        <label>Denumire</label><br />
-        <InputSelect @bind-Value="quadruped.Name" class="form-select">
-            @foreach (var animal in AnimalsService.Quadrupeds)
+        <label>Patrupede:</label><br />
+        <InputText @bind-Value=quadruped.Name class="form-control" id="Name" />
+        @foreach(Quadruped animal in AnimalsService.Quadrupeds)
+        {
+            if (quadruped.Name == animal.Name)
             {
-                <option value="@animal.Name">@animal.Name</option>
+                IdQuadruped = animal.Id;
+                break;
             }
-        </InputSelect>
+        }
+        
     </div>
-    
-    <div>
-        <label for="quantity">Introduceti cu cat scade totalul:</label>
-        <InputNumber id="lastname" @bind-Value="quadruped.Quantity" class="form-control"></InputNumber>
-    </div>
-    
     <br />
     <button type="submit" class="btn btn-primary">Redu</button>
     
+</EditForm>
+
+<EditForm Model="fowl" OnSubmit="HandleSubmitFowls">
+    <div>
+        <label>Pasari:</label><br />
+        <InputText @bind-Value=fowl.Name class="form-control" id="Name" />
+        @foreach (Fowl animal in AnimalsService.Fowls)
+        {
+            if (fowl.Name == animal.Name)
+            {
+                IdFowl = animal.Id;
+                break;
+            }
+        }
+
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Redu</button>
+
 </EditForm>
 
 
@@ -47,16 +64,27 @@
 @code {
 
     [Parameter]
-    public int? Id { get; set; }
+    public int? IdQuadruped { get; set; }
+
+     [Parameter]
+    public int? IdFowl { get; set; }
 
     Quadruped quadruped = new Quadruped();
+    Fowl fowl = new Fowl();
 
     protected override async Task OnParametersSetAsync()
     {
-        if (Id != null)
-            quadruped = await AnimalsService.GetSpecificQuadruped((int)Id);
+        if (IdQuadruped != null)
+            quadruped = await AnimalsService.GetSpecificQuadruped((int)IdQuadruped);
         else
             Console.WriteLine("vad eu ce fac");
+
+        if (IdFowl != null)
+            fowl = await AnimalsService.GetSpecificFowl((int)IdFowl);
+        else
+            Console.WriteLine("vad eu ce fac");
+
+
 
     }
 
@@ -64,13 +92,21 @@
     {
         
         await AnimalsService.LoadQuadrupeds();
+        await AnimalsService.LoadFowls();
     }
 
-    async Task HandleSubmit()
+    async Task HandleSubmitQuadrupeds()
         
 
     {
-       // await AnimalsService.DecreaseQuadrupedsNumber(quadruped);
+        NavigationManager.NavigateTo($"decreasequadrupeds/{IdQuadruped}");
+    }
+
+    async Task HandleSubmitFowls()
+
+
+    {
+        NavigationManager.NavigateTo($"decreasefowls/{IdFowl}");
     }
 
 

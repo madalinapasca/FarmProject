@@ -20,6 +20,14 @@ namespace FarmProject.Shared
         public double? Corn { get; set; }
 
         public double? Hey { get; set; }
-        
+
+        public bool HasFoodNeedsConfigured()
+        {
+            if (Corn == null & Hey == null)
+                return false;
+            else
+                return true;
+        }
+
     }
 }

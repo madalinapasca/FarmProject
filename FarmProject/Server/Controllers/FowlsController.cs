@@ -4,6 +4,7 @@ using FarmProject.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace FarmProject.Server.Controllers
 {
@@ -42,6 +43,23 @@ namespace FarmProject.Server.Controllers
             return Ok(animal);
         }
 
+        [HttpGet("cornquantity")]
+        public async Task<double?> FowlsCornNeeds()
+        {
+            double? sum = 0;
+            var animals = await _context.Fowls.ToListAsync();
+            foreach (Fowl q in animals)
+            {
+                if (q.Quantity != null & q.Corn != null)
+                    sum += (q.Corn * q.Quantity);
+                else
+                    sum += 0;
+            }
+            return sum;
+        }
+
+        
+
         [HttpPut("{id}")]
 
         public async Task<ActionResult<List<Fowl>>> UpdateFowl(Fowl animal, int id)
@@ -61,10 +79,34 @@ namespace FarmProject.Server.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok(await GetDbQFowls());
+            return Ok(await GetDbFowls());
         }
 
-        private async Task<List<Fowl>> GetDbQFowls()
+        [HttpPut("decreasefowls/{id}")] 
+
+        public async Task<ActionResult<List<Fowl>>> DecreaseFowlsNumber(Fowl animal, int id)
+        {
+            var dbAnimal = await _context.Fowls.FirstOrDefaultAsync(h => h.Id == id);
+
+            if (dbAnimal == null)
+            {
+                return NotFound("Hrana solicitata nu este disponibila. :/");
+            }
+
+
+            dbAnimal.Name = animal.Name;
+            dbAnimal.Quantity -= animal.Quantity;
+            dbAnimal.Corn = animal.Corn;
+            dbAnimal.Hey = animal.Hey;
+            dbAnimal.Id = animal.Id;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(await GetDbFowls());
+        }
+
+
+        private async Task<List<Fowl>> GetDbFowls()
         {
             return await _context.Fowls.ToListAsync();
         }

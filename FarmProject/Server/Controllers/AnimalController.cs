@@ -40,6 +40,36 @@ namespace FarmProject.Server.Controllers
             return Ok(animal);
         }
 
+        [HttpGet("cornquantity")]
+        public async Task<double?> QuadrupedsCornNeeds()
+        {
+            double? sum = 0;
+            var animals = await _context.Quadrupeds.ToListAsync();
+            foreach (Quadruped q in animals)
+            {
+                if (q.Quantity != null & q.Corn != null)
+                    sum += (q.Corn*q.Quantity);
+                else
+                    sum += 0;
+            }
+            return sum;
+        }
+
+        [HttpGet("heyquantity")]
+        public async Task<double?> QuadrupedsHeyNeeds()
+        {
+            double? sum = 0;
+            var animals = await _context.Quadrupeds.ToListAsync();
+            foreach (Quadruped q in animals)
+            {
+                if (q.Quantity != null & q.Hey != null)
+                    sum += (q.Hey * q.Quantity);
+                else
+                    sum += 0;
+            }
+            return sum;
+        }
+
         [HttpPut("{id}")]
 
         public async Task<ActionResult<List<Quadruped>>> UpdateQuadruped(Quadruped animal, int id)
@@ -62,7 +92,7 @@ namespace FarmProject.Server.Controllers
             return Ok(await GetDbQuadrupeds());
         }
 
-        [HttpPut("decrease/{id}")]
+        [HttpPut("decreasequadrupeds/{id}")]
 
         public async Task<ActionResult<List<Quadruped>>> DecreaseQuadrupedsNumber(Quadruped animal, int id)
         {
@@ -72,6 +102,7 @@ namespace FarmProject.Server.Controllers
             {
                 return NotFound("Hrana solicitata nu este disponibila. :/");
             }
+            
 
             dbAnimal.Name = animal.Name;
             dbAnimal.Quantity -= animal.Quantity;
@@ -84,6 +115,7 @@ namespace FarmProject.Server.Controllers
             return Ok(await GetDbQuadrupeds());
         }
 
+        
 
 
         private async Task<List<Quadruped>> GetDbQuadrupeds()
@@ -91,6 +123,7 @@ namespace FarmProject.Server.Controllers
             return await _context.Quadrupeds.ToListAsync();
         }
 
+        
 
 
     }

@@ -22,7 +22,15 @@ namespace FarmProject.Client.Services.AnimalServices
         
         Task DecreaseQuadrupedsNumber (Quadruped animal);
 
-       
+        Task DecreaseFowlsNumber(Fowl animal);
+
+        Task<double?> QuadrupedsCornNeeds();
+
+        Task<double?> QuadrupedsHeyNeeds();
+
+        Task<double?> FowlsCornNeeds();
+
+
 
     }
 }
