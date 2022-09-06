@@ -4,15 +4,17 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
 
-<h3>AddQuadrupeds</h3>
 
-<h1>Doriti sa adaugati</h1>
+
+<h3>Categoria "pasari":</h3>
 
 <table class="table">
     <thead>
         <tr>
 
             <th>Denumire</th>
+            <th>Adauga Animale</th>
+            <th>Redu numar animale</th>
 
 
         </tr>
@@ -22,13 +24,14 @@
         {
             <tr>
                 <td>@animal.Name</td>
-                <button class="btn btn-primary" @onclick="(()=> EditAnimal(animal.Id))"><i class="oi oi-pencil"></i></button>
+                <td><button class="btn btn-primary" @onclick="(()=> AddAnimal(animal.Id))"><i class="oi oi-plus"></i></button></td>
+                <td><button class="btn btn-primary" @onclick="(()=> DecreaseAnimalNumber(animal.Id))"><i class="oi oi-minus"></i></button></td>
             </tr>
         }
     </tbody>
 </table>
 
-<a class="nav-link" href="addanimals">Reveniti la meniul anterior</a>
+<a class="nav-link" href="manageanimals">Reveniti la meniul anterior</a>
 
 @code {
     Fowl fowl = new Fowl();
@@ -40,7 +43,7 @@
 
     }
 
-    async Task EditAnimal(int id)
+    async Task AddAnimal(int id)
     {
         fowl = await AnimalsService.GetSpecificFowl((int)id);
 
@@ -60,6 +63,17 @@
 
         
     }
+
+
+    async Task DecreaseAnimalNumber(int id)
+    {
+              
+       
+        NavigationManager.NavigateTo($"decreasefowls/{id}");
+              
+
+    }
+
 
 
 }

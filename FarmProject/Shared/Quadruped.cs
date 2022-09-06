@@ -16,7 +16,8 @@ namespace FarmProject.Shared
         public string Name { get; set; }
         
         [Required]
-		public int Quantity { get; set; }
+        [Range(1, 100000, ErrorMessage = "Cantitatea nu poate fi un numar negativ.")]
+        public int Quantity { get; set; }
         public double? Corn { get; set; }
 
         public double? Hey { get; set; }

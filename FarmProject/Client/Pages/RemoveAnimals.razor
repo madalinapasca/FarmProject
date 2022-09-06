@@ -20,95 +20,18 @@
 
 <h1>Doriti sa reduceti:</h1>
 
-<EditForm Model="quadruped" OnSubmit="HandleSubmitQuadrupeds">
-    <div>
-        <label>Patrupede:</label><br />
-        <InputText @bind-Value=quadruped.Name class="form-control" id="Name" />
-        @foreach(Quadruped animal in AnimalsService.Quadrupeds)
-        {
-            if (quadruped.Name == animal.Name)
-            {
-                IdQuadruped = animal.Id;
-                break;
-            }
-        }
-        
-    </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Redu</button>
-    
-</EditForm>
+	<ol>
+		
+		<li><a href="addquadrupeds">patrupede</a></li>
+		<li><a href="addfowls">pasari</a></li>
+		<li>reveniti la ecranul anterior</li>
+	</ol>
 
-<EditForm Model="fowl" OnSubmit="HandleSubmitFowls">
-    <div>
-        <label>Pasari:</label><br />
-        <InputText @bind-Value=fowl.Name class="form-control" id="Name" />
-        @foreach (Fowl animal in AnimalsService.Fowls)
-        {
-            if (fowl.Name == animal.Name)
-            {
-                IdFowl = animal.Id;
-                break;
-            }
-        }
 
-    </div>
-    <br />
-    <button type="submit" class="btn btn-primary">Redu</button>
-
-</EditForm>
 
 
 
 
 @code {
-
-    [Parameter]
-    public int? IdQuadruped { get; set; }
-
-     [Parameter]
-    public int? IdFowl { get; set; }
-
-    Quadruped quadruped = new Quadruped();
-    Fowl fowl = new Fowl();
-
-    protected override async Task OnParametersSetAsync()
-    {
-        if (IdQuadruped != null)
-            quadruped = await AnimalsService.GetSpecificQuadruped((int)IdQuadruped);
-        else
-            Console.WriteLine("vad eu ce fac");
-
-        if (IdFowl != null)
-            fowl = await AnimalsService.GetSpecificFowl((int)IdFowl);
-        else
-            Console.WriteLine("vad eu ce fac");
-
-
-
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        
-        await AnimalsService.LoadQuadrupeds();
-        await AnimalsService.LoadFowls();
-    }
-
-    async Task HandleSubmitQuadrupeds()
-        
-
-    {
-        NavigationManager.NavigateTo($"decreasequadrupeds/{IdQuadruped}");
-    }
-
-    async Task HandleSubmitFowls()
-
-
-    {
-        NavigationManager.NavigateTo($"decreasefowls/{IdFowl}");
-    }
-
-
 
 }

@@ -65,7 +65,7 @@ else
 		else if (cornTotal == sum)
 			return 1;
 		else
-		return 0;
+			return 0;
 	}
 
 	public double HeyStatus()
@@ -84,9 +84,14 @@ else
 		int idHey = 2;
 
 		corn = await FoodService.GetSpecificFood((int)idCorn);
-		cornTotal = await FoodService.GetCornQuantity();
-		heyTotal = await FoodService.GetHeyQuantity();
 		hey = await FoodService.GetSpecificFood((int)idHey);
+		cornTotal=corn.Quantity;
+		heyTotal = hey.Quantity;
+
+		
+
+		//heyTotal = await FoodService.GetHeyQuantity();
+		//cornTotal = await FoodService.GetCornQuantity();
 
 		quadrupedsCorn = await AnimalsService.QuadrupedsCornNeeds();
 		quadrupedsHey = await AnimalsService.QuadrupedsHeyNeeds();

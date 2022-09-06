@@ -4,6 +4,9 @@
 
 @using FarmProject.Client.Services.FoodServices
 @inject IAnimalService AnimalsService;
+@inject IFoodService FoodService;
+@inject NavigationManager NavigationManager;
+@inject IJSRuntime JS;
 
 @if (Id == null)
 {
@@ -34,6 +37,13 @@ else
 	public int? Id { get; set; }
 
 	Fowl animal = new Fowl();
+	Barn corn = new Barn();
+	Barn hey = new Barn();
+	
+	double? qcornNeeds;
+	double? fcornNeeds;
+	double? cornStock;
+	int idCorn = 1;
 	
 
 	protected override async Task OnParametersSetAsync()
@@ -42,11 +52,33 @@ else
 			animal = await AnimalsService.GetSpecificFowl((int)Id);
 		else
 			Console.WriteLine("vad eu ce fac");
+		qcornNeeds = await AnimalsService.QuadrupedsCornNeeds();
+		fcornNeeds = await AnimalsService.FowlsCornNeeds();
+		corn = await FoodService.GetSpecificFood((int)idCorn);
+		cornStock = corn.Quantity;
+		
+		
+		
+
 
 	}
 
 	async Task HandleSubmit()
 	{
-		await AnimalsService.UpdateFowl(animal);
+		double? cornRest = cornStock - (qcornNeeds + fcornNeeds);		
+		cornRest = cornRest > 0 ? cornRest : 0;
+		
+
+		string message = $"Nu ajunge hrana pentru a hrani {animal.Quantity} {animal.Name} timp de o saptamana. Adaugati hrana in stoc înainte de a adauga animale noi.";
+		if (animal.Corn != null & (animal.Quantity * animal.Corn * 7) <= cornRest)
+		{
+			await AnimalsService.UpdateFowl(animal);
+			NavigationManager.NavigateTo("addanimals");
+		}
+		else
+
+		{
+			await JS.InvokeVoidAsync("displayAlert1", message);
+		}
 	}
 }
