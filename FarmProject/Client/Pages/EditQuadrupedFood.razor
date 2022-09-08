@@ -1,8 +1,9 @@
 ﻿@page "/editquadrupedfood/{id:int}"
 
 @using FarmProject.Client.Services.FoodServices
-@inject IAnimalService AnimalsService;
-@inject NavigationManager NavigationManager;
+@inject IAnimalService AnimalsService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
 
 @if (Id == null)
 {
@@ -62,13 +63,19 @@ else
 
 	async Task HandleSubmit()
 	{
-		await AnimalsService.UpdateQuadruped(animal);
+		string message = "cantitatea de hrana necesara intr-o zi nu poate fi un numar negativ";
+		if (animal.Hey < 0 || animal.Corn < 0)
+		{
+			await JS.InvokeVoidAsync("displayAlert1", message);
+		}
+		else
+		{
+			await AnimalsService.UpdateQuadruped(animal);
+		}
+		
 
 	}
 
-	void GoBack()
-	{
-		NavigationManager.NavigateTo("foodneeds");
-	}
+	
 
 }

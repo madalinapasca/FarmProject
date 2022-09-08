@@ -3,6 +3,7 @@
 @using FarmProject.Client.Services.FoodServices
 @inject IAnimalService AnimalsService;
 @inject NavigationManager NavigationManager;
+@inject IJSRuntime JS;
 
 @if (Id == null)
 {
@@ -62,13 +63,18 @@ else
 
 	async Task HandleSubmit()
 	{
-		await AnimalsService.UpdateFowl(animal);
+		string message = "cantitatea de hrana necesara intr-o zi nu poate fi un numar negativ";
+		if (animal.Hey < 0 || animal.Corn < 0)
+		{
+			await JS.InvokeVoidAsync("displayAlert1", message);
+		}
+		else
+		{
+			await AnimalsService.UpdateFowl(animal);
+		}
+		
 
 	}
 
-	void GoBack()
-	{
-		NavigationManager.NavigateTo("foodneeds");
-	}
 
 }

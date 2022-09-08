@@ -2,13 +2,15 @@
 @inject IFoodService FoodService
 @inject NavigationManager NavigationManager
 
+
 @foreach (Barn food in FoodService.Barn)
 {
 	<tr>
 
 		<td>@food.Name</td>
 		<td>@food.Quantity</td>
-		<button class="btn btn-primary" @onclick="(()=> AddFood(food.Id))" ><i class="oi oi-plus"></i></button>
+		<td><button class="btn btn-primary" @onclick="(()=> AddFood(food.Id))"><i class="oi oi-plus"></i></button></td>
+		
 	</tr>
 }
 

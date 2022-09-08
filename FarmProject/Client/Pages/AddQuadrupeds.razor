@@ -70,7 +70,19 @@
 
     async Task DecreaseAnimalNumber(int id)
     {
-        NavigationManager.NavigateTo($"decreasequadrupeds/{id}");
+        quadruped = await AnimalsService.GetSpecificQuadruped((int)id);
+        bool condition = quadruped.Quantity > 0;
+        string message = $"Momentan nu exista {quadruped.Name} in ferma.";
+
+        if (condition)
+        {
+            NavigationManager.NavigateTo($"decreasequadrupeds/{id}");
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("displayAlert1", message);
+        }
+
     }
 
     

@@ -3,6 +3,7 @@
 
 @using FarmProject.Client.Services.FoodServices
 @inject IAnimalService AnimalsService;
+@inject IJSRuntime JS;
 
 @if (Id == null)
 {
@@ -12,7 +13,8 @@ else
 {
 	<h3>Introudceti cu cat scade totalul de @animal.Name:</h3>
 	<EditForm Model="animal" OnSubmit="HandleSubmit">
-	
+		<DataAnnotationsValidator />
+		<ValidationSummary />
 		<div class="form-group">
 			
 			<InputNumber id="quantity" @bind-Value="animal.Quantity" class="form-control"></InputNumber>
@@ -20,7 +22,7 @@ else
 		<button class="btn btn-primary" type="submit">Redu</button>
 	</EditForm>
 
-	//<a class="nav-link" href="addquadrupeds">Reveniti la meniul anterior</a>
+	<a class="nav-link" href="addfowls">Reveniti la meniul anterior</a>
 
 }
 
@@ -44,6 +46,18 @@ else
 
 	async Task HandleSubmit()
 	{
-		await AnimalsService.DecreaseFowlsNumber(animal);
+		Fowl oldQuantity = await AnimalsService.GetSpecificFowl((int)Id);
+		string message = "Cantitatea nu poate fi un numar negativ!";
+
+		if (animal.Quantity > oldQuantity.Quantity)
+		{
+			await JS.InvokeVoidAsync("displayAlert1", message);
+		}
+		else
+		{
+			await AnimalsService.DecreaseFowlsNumber(animal);
+		}
+
+		
 	}
 }

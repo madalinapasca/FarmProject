@@ -2,6 +2,7 @@
 @page "/editfood/{id:int}"
 @using FarmProject.Client.Services.FoodServices
 @inject IFoodService FoodService;
+@inject IJSRuntime JS
 
 @if (Id == null)
 {
@@ -11,6 +12,8 @@ else
 {
 	<h3>Precizati cantitatea de @food.Name pe care doriti sa o adaugati:</h3>
 	<EditForm Model="food" OnSubmit="HandleSubmit">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
 		<div class="form-group">
 			<label for="name">Denumire</label>
 			<InputText id="name" @bind-Value="food.Name" class="form-control"></InputText>
@@ -44,6 +47,15 @@ else
 
 	async Task HandleSubmit()
 	{
-		await FoodService.UpdateFood(food);
+		string message = "Cantitatea nu poate fi un numar negativ";
+		if (food.Quantity >= 0)
+		{
+			await FoodService.UpdateFood(food);
+		}
+		else
+		{
+			await JS.InvokeVoidAsync("displayAlert1", message);
+		}
+
 	}
 }

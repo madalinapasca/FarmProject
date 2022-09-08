@@ -2,6 +2,7 @@
 @page "/editfowl/{id:int}"
 
 
+
 @using FarmProject.Client.Services.FoodServices
 @inject IAnimalService AnimalsService;
 @inject IFoodService FoodService;
@@ -16,6 +17,8 @@ else
 {
 	<h3>Introudceti numarul de animale noi pentru categorie @animal.Name:</h3>
 	<EditForm Model="animal" OnSubmit="HandleSubmit">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
 		<div class="form-group">
 			<label for="name">Denumire</label>
 			<InputText id="name" @bind-Value="animal.Name" class="form-control"></InputText>

@@ -75,23 +75,40 @@ else
 		double? heyRest = heyStock - qheyNeeds;
 		cornRest = cornRest > 0 ? cornRest : 0;
 		heyRest = heyRest > 0 ? heyRest : 0;
-
-		string negativeMessage = "cantitatea nu poate fi un numar negativ";
-		string message = $"Nu ajunge hrana pentru a hrani {animal.Quantity} {animal.Name} timp de o saptamana. Adaugati hrana in stoc înainte de a adauga animale noi.";
+		bool cornCondition = (animal.Corn > 0) & ((animal.Quantity * animal.Corn * 7) <= cornRest);
+		bool heyCondition = (animal.Hey > 0) & ((animal.Quantity * animal.Hey * 7) <= heyRest);
 
 		
-		if (
-			(animal.Corn != null & (animal.Quantity*animal.Corn*7) <= cornRest)
-			|| (animal.Hey != null & (animal.Quantity*animal.Hey*7)<= heyRest)
-		)
-		{
-			await AnimalsService.UpdateQuadruped(animal);
-			NavigationManager.NavigateTo("managenimals");
-		}
-		else
+		string message = $"Nu ajunge hrana pentru a hrani {animal.Quantity} {animal.Name} timp de o saptamana. Adaugati hrana in stoc înainte de a adauga animale noi.";
 
-		{			
-			await JS.InvokeVoidAsync("displayAlert1", message);
+
+		if (animal.Corn > 0 & animal.Hey == 0)
+		{
+			if ((animal.Quantity * animal.Corn * 7) <= cornRest)
+			{
+				await AnimalsService.UpdateQuadruped(animal);
+				NavigationManager.NavigateTo("managenimals");
+			}
+			else
+
+			{
+				await JS.InvokeVoidAsync("displayAlert1", message);
+			}
+
+		}
+		else if (animal.Corn == 0 & animal.Hey > 0)
+
+		{
+			if ((animal.Quantity * animal.Hey * 7) <= heyRest)
+			{
+				await AnimalsService.UpdateQuadruped(animal);
+				NavigationManager.NavigateTo("managenimals");
+			}
+			else
+			{
+				await JS.InvokeVoidAsync("displayAlert1", message);
+			}
+			
 		}
 		
 		

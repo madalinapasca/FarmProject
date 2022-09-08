@@ -61,15 +61,28 @@
             await JS.InvokeVoidAsync("displayAlert1", message);
         }
 
-        
+
     }
 
 
     async Task DecreaseAnimalNumber(int id)
     {
-              
+        fowl = await AnimalsService.GetSpecificFowl((int)id);
+
+        bool condition = fowl.Quantity>0;
+        string message = $"Momentan nu exista {fowl.Name} în ferma.";
+
+        if (condition)
+        {
+            NavigationManager.NavigateTo($"decreasefowls/{id}");
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("displayAlert1", message);
+        }
+
        
-        NavigationManager.NavigateTo($"decreasefowls/{id}");
+        
               
 
     }
