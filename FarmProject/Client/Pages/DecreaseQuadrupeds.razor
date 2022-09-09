@@ -4,6 +4,7 @@
 @using FarmProject.Client.Services.FoodServices
 @inject IAnimalService AnimalsService;
 @inject IJSRuntime JS;
+@inject NavigationManager NavigationManager;
 
 @if (Id == null)
 {
@@ -51,13 +52,14 @@ else
 		Quadruped oldQuantity = await AnimalsService.GetSpecificQuadruped((int)Id);
 		string message = "Cantitatea nu poate fi un numar negativ!";
 
-		if (animal.Quantity > oldQuantity.Quantity)
+		if ((animal.Quantity > oldQuantity.Quantity) | animal.Quantity < 0)
 		{
 			await JS.InvokeVoidAsync("displayAlert1", message);
 		}
 		else
 		{
 			await AnimalsService.DecreaseQuadrupedsNumber(animal);
+			NavigationManager.NavigateTo("addquadrupeds");
 		}
 		
 	}

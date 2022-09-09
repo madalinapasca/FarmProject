@@ -10,14 +10,11 @@
 }
 else
 {
-	<h3>Precizati cantitatea de @food.Name pe care doriti sa o adaugati:</h3>
+	<h3>In momentul de fata in stoc exista @food.Quantity kg de @food.Name. Precizati cantitatea suplimentara pe care doriti sa o adaugati:</h3>
 	<EditForm Model="food" OnSubmit="HandleSubmit">
 		<DataAnnotationsValidator />
 		<ValidationSummary />
-		<div class="form-group">
-			<label for="name">Denumire</label>
-			<InputText id="name" @bind-Value="food.Name" class="form-control"></InputText>
-		</div>
+		
 		<div class="form-group">
 			<label for="quantity">Cantitate</label>
 			<InputNumber id="quantity"  @bind-Value="food.Quantity" class="form-control"></InputNumber>

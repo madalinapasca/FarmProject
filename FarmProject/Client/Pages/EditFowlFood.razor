@@ -22,10 +22,7 @@ else
 	
 	
 	<EditForm Model="animal" OnSubmit="HandleSubmit">
-		<div class="form-group">
-			<label for="name">Denumire</label>
-			<InputText id="name" @bind-Value="animal.Name" class="form-control"></InputText>
-		</div>
+		
 		<div class="form-group">
 			<label for="quantity">Necesar porumb (kg/zi):</label>
 			<InputNumber id="corn" @bind-Value="animal.Corn" class="form-control"></InputNumber>
@@ -63,10 +60,11 @@ else
 
 	async Task HandleSubmit()
 	{
-		string message = "cantitatea de hrana necesara intr-o zi nu poate fi un numar negativ";
+		string quantityMessage = "cantitatea de hrana necesara intr-o zi nu poate fi un numar negativ";
+	
 		if (animal.Hey < 0 || animal.Corn < 0)
 		{
-			await JS.InvokeVoidAsync("displayAlert1", message);
+			await JS.InvokeVoidAsync("displayAlert1", quantityMessage);
 		}
 		else
 		{

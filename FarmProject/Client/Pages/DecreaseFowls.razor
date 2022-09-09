@@ -4,6 +4,7 @@
 @using FarmProject.Client.Services.FoodServices
 @inject IAnimalService AnimalsService;
 @inject IJSRuntime JS;
+@inject NavigationManager NavigationManager;
 
 @if (Id == null)
 {
@@ -33,7 +34,7 @@ else
 	public int? Id { get; set; }
 
 	Fowl animal = new Fowl();
-	
+
 
 	protected override async Task OnParametersSetAsync()
 	{
@@ -49,13 +50,17 @@ else
 		Fowl oldQuantity = await AnimalsService.GetSpecificFowl((int)Id);
 		string message = "Cantitatea nu poate fi un numar negativ!";
 
-		if (animal.Quantity > oldQuantity.Quantity)
+		
+
+
+		if ((animal.Quantity > oldQuantity.Quantity) | animal.Quantity < 0)
 		{
 			await JS.InvokeVoidAsync("displayAlert1", message);
 		}
 		else
 		{
 			await AnimalsService.DecreaseFowlsNumber(animal);
+			NavigationManager.NavigateTo("addfowls");
 		}
 
 		

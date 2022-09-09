@@ -22,10 +22,7 @@ else
 
 
 	<EditForm Model="animal" OnSubmit="HandleSubmit">
-		<div class="form-group">
-			<label for="name">Denumire</label>
-			<InputText id="name" @bind-Value="animal.Name" class="form-control"></InputText>
-		</div>
+		
 		<div class="form-group">
 			<label for="quantity">Necesar porumb (kg/zi):</label>
 			<InputNumber id="corn" @bind-Value="animal.Corn" class="form-control"></InputNumber>

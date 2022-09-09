@@ -19,10 +19,7 @@ else
 	<EditForm Model="animal" OnSubmit="HandleSubmit">
 		<DataAnnotationsValidator />
 		<ValidationSummary />
-		<div class="form-group">
-			<label for="name">Denumire</label>
-			<InputText id="name" @bind-Value="animal.Name" class="form-control"></InputText>
-		</div>
+		
 		<div class="form-group">
 			<label for="quantity">Cantitate</label>
 			<InputNumber id="quantity" @bind-Value="animal.Quantity" class="form-control"></InputNumber>
@@ -76,7 +73,7 @@ else
 		if (animal.Corn != null & (animal.Quantity * animal.Corn * 7) <= cornRest)
 		{
 			await AnimalsService.UpdateFowl(animal);
-			NavigationManager.NavigateTo("addanimals");
+			NavigationManager.NavigateTo("manageanimals");
 		}
 		else
 
