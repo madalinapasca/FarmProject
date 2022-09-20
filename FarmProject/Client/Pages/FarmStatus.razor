@@ -3,7 +3,7 @@
 @inject IAnimalService AnimalsService
 @inject IFoodService FoodService
 
-<h3>FarmStatus</h3>
+<h3>Situatie curenta in ferma</h3>
 
 <table class="table">
         <thead>
@@ -20,28 +20,28 @@
     </tbody>
     
 </table>
-<h3>Total porumb @cornTotal</h3>
+<h4>Total porumb @cornTotal</h4>
 
-<h3>Total fan @heyTotal</h3>
-<h3>Toate patrupedele din ferma au nevoie de @quadrupedsCorn kg de porumb in fiecare zi.</h3>
-<h3>Toate pasarile din ferma au nevoie de @fowlsCorn kg de porumb in fiecare zi.</h3>
-<h3>Toate patrupedele din ferma au nevoie de @quadrupedsHey kg de fan in fiecare zi.</h3>
+<h4>Total fan @heyTotal</h4>
+<h4>Toate patrupedele din ferma au nevoie de @quadrupedsCorn kg de porumb in fiecare zi.</h4>
+<h4>Toate pasarile din ferma au nevoie de @fowlsCorn kg de porumb in fiecare zi.</h4>
+<h4>Toate patrupedele din ferma au nevoie de @quadrupedsHey kg de fan in fiecare zi.</h4>
 @if (HeyStatus()==0)
 {
-	<h3>Stocul de fan NU este suficient pentru a hrani toate animalele. Adaugati hrana!</h3>
+	<h4>Stocul de fan <b>NU</b> este suficient pentru a hrani toate animalele. Adaugati hrana!</h4>
 }
 else 
 {
-	<h3>Stocul de fan este suficient pentru a hrani animalele timp de @HeyStatus() zi(le).</h3>
+	<h4>Stocul de fan este suficient pentru a hrani animalele timp de @HeyStatus() zi(le).</h4>
 }
 
 @if (CornStatus() == 0)
 {
-	<h3>Stocul de porumb NU este suficient pentru a hrani toate animalele. Adaugati hrana!</h3>
+	<h4>Stocul de porumb <b>NU</b> este suficient pentru a hrani toate animalele. Adaugati hrana!</h4>
 }
 else
 {
-	<h3>Stocul de porumb este suficient pentru a hrani animalele timp de @CornStatus() zi(le).</h3>
+	<h4>Stocul de porumb este suficient pentru a hrani animalele timp de @CornStatus() zi(le).</h4>
 }
 
 
